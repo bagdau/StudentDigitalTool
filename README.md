@@ -12,80 +12,78 @@
 ---
 
 > <img src="https://img.shields.io/badge/🌐%20SmartUKGU%20-%20Desktop%20версия%20онлайн%20университета%20-синий?style=for-the-badge" height="30"/>
-
----
+```
 <div align="center">
 
 <table>
   <tr>
     <td>
-      <img src="assets/bandicam 2025-06-02 04-09-34-557.jpg" width="300" style="border-radius:14px; box-shadow:0 2px 12px #23243c40;">
+      <img src="StudentDigitalTool/ExperimentalWebPage/assets/bandicam 2025-06-02 04-09-34-557.jpg" width="300" style="border-radius:14px; box-shadow:0 2px 12px #23243c40;">
     </td>
     <td>
-      <img src="assets/bandicam 2025-06-02 04-09-54-158.jpg" width="300" style="border-radius:14px; box-shadow:0 2px 12px #23243c40;">
+      <img src="StudentDigitalTool/ExperimentalWebPage/assets/bandicam 2025-06-02 04-09-54-158.jpg" width="300" style="border-radius:14px; box-shadow:0 2px 12px #23243c40;">
     </td>
     <td>
-      <img src="assets/bandicam 2025-06-02 04-09-56-528.jpg" width="300" style="border-radius:14px; box-shadow:0 2px 12px #23243c40;">
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <img src="assets/bandicam 2025-06-02 04-09-58-840.jpg" width="300" style="border-radius:14px; box-shadow:0 2px 12px #23243c40;">
-    </td>
-    <td>
-      <img src="assets/bandicam 2025-06-02 04-10-01-113.jpg" width="300" style="border-radius:14px; box-shadow:0 2px 12px #23243c40;">
-    </td>
-    <td>
-      <img src="assets/bandicam 2025-06-02 04-10-03-057.jpg" width="300" style="border-radius:14px; box-shadow:0 2px 12px #23243c40;">
+      <img src="StudentDigitalTool/ExperimentalWebPage/assets/bandicam 2025-06-02 04-09-56-528.jpg" width="300" style="border-radius:14px; box-shadow:0 2px 12px #23243c40;">
     </td>
   </tr>
   <tr>
     <td>
-      <img src="assets/bandicam 2025-06-02 04-10-05-049.jpg" width="300" style="border-radius:14px; box-shadow:0 2px 12px #23243c40;">
+      <img src="StudentDigitalTool/ExperimentalWebPage/assets/bandicam 2025-06-02 04-09-58-840.jpg" width="300" style="border-radius:14px; box-shadow:0 2px 12px #23243c40;">
     </td>
     <td>
-      <img src="assets/bandicam 2025-06-02 04-10-07-116.jpg" width="300" style="border-radius:14px; box-shadow:0 2px 12px #23243c40;">
+      <img src="StudentDigitalTool/ExperimentalWebPage/assets/bandicam 2025-06-02 04-10-01-113.jpg" width="300" style="border-radius:14px; box-shadow:0 2px 12px #23243c40;">
     </td>
     <td>
-      <img src="assets/bandicam 2025-06-02 04-10-13-389.jpg" width="300" style="border-radius:14px; box-shadow:0 2px 12px #23243c40;">
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <img src="assets/bandicam 2025-06-02 04-10-15-732.jpg" width="300" style="border-radius:14px; box-shadow:0 2px 12px #23243c40;">
-    </td>
-    <td>
-      <img src="assets/bandicam 2025-06-02 04-10-17-488.jpg" width="300" style="border-radius:14px; box-shadow:0 2px 12px #23243c40;">
-    </td>
-    <td>
-      <img src="assets/bandicam 2025-06-02 04-10-19-456.jpg" width="300" style="border-radius:14px; box-shadow:0 2px 12px #23243c40;">
+      <img src="StudentDigitalTool/ExperimentalWebPage/assets/bandicam 2025-06-02 04-10-03-057.jpg" width="300" style="border-radius:14px; box-shadow:0 2px 12px #23243c40;">
     </td>
   </tr>
   <tr>
     <td>
-      <img src="assets/bandicam 2025-06-02 04-10-21-284.jpg" width="300" style="border-radius:14px; box-shadow:0 2px 12px #23243c40;">
+      <img src="StudentDigitalTool/ExperimentalWebPage/assets/bandicam 2025-06-02 04-10-05-049.jpg" width="300" style="border-radius:14px; box-shadow:0 2px 12px #23243c40;">
     </td>
     <td>
-      <img src="assets/bandicam 2025-06-02 04-10-23-153.jpg" width="300" style="border-radius:14px; box-shadow:0 2px 12px #23243c40;">
+      <img src="StudentDigitalTool/ExperimentalWebPage/assets/bandicam 2025-06-02 04-10-07-116.jpg" width="300" style="border-radius:14px; box-shadow:0 2px 12px #23243c40;">
     </td>
     <td>
-      <img src="assets/bandicam 2025-06-02 04-10-25-186.jpg" width="300" style="border-radius:14px; box-shadow:0 2px 12px #23243c40;">
+      <img src="StudentDigitalTool/ExperimentalWebPage/assets/bandicam 2025-06-02 04-10-13-389.jpg" width="300" style="border-radius:14px; box-shadow:0 2px 12px #23243c40;">
     </td>
   </tr>
   <tr>
     <td>
-      <img src="assets/bandicam 2025-06-02 04-10-28-380.jpg" width="300" style="border-radius:14px; box-shadow:0 2px 12px #23243c40;">
+      <img src="StudentDigitalTool/ExperimentalWebPage/assets/bandicam 2025-06-02 04-10-15-732.jpg" width="300" style="border-radius:14px; box-shadow:0 2px 12px #23243c40;">
     </td>
     <td>
-      <img src="assets/bandicam 2025-06-02 04-10-58-224.jpg" width="300" style="border-radius:14px; box-shadow:0 2px 12px #23243c40;">
+      <img src="StudentDigitalTool/ExperimentalWebPage/assets/bandicam 2025-06-02 04-10-17-488.jpg" width="300" style="border-radius:14px; box-shadow:0 2px 12px #23243c40;">
+    </td>
+    <td>
+      <img src="StudentDigitalTool/ExperimentalWebPage/assets/bandicam 2025-06-02 04-10-19-456.jpg" width="300" style="border-radius:14px; box-shadow:0 2px 12px #23243c40;">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <img src="StudentDigitalTool/ExperimentalWebPage/assets/bandicam 2025-06-02 04-10-21-284.jpg" width="300" style="border-radius:14px; box-shadow:0 2px 12px #23243c40;">
+    </td>
+    <td>
+      <img src="StudentDigitalTool/ExperimentalWebPage/assets/bandicam 2025-06-02 04-10-23-153.jpg" width="300" style="border-radius:14px; box-shadow:0 2px 12px #23243c40;">
+    </td>
+    <td>
+      <img src="StudentDigitalTool/ExperimentalWebPage/assets/bandicam 2025-06-02 04-10-25-186.jpg" width="300" style="border-radius:14px; box-shadow:0 2px 12px #23243c40;">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <img src="StudentDigitalTool/ExperimentalWebPage/assets/bandicam 2025-06-02 04-10-28-380.jpg" width="300" style="border-radius:14px; box-shadow:0 2px 12px #23243c40;">
+    </td>
+    <td>
+      <img src="StudentDigitalTool/ExperimentalWebPage/assets/bandicam 2025-06-02 04-10-58-224.jpg" width="300" style="border-radius:14px; box-shadow:0 2px 12px #23243c40;">
     </td>
     <td></td>
   </tr>
 </table>
 
 </div>
----
-
+```
 
 ## 📦 Структура проекта
 
