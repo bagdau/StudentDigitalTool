@@ -28,7 +28,7 @@
 
 ##  Структура проекта
 
-```plaintext
+## plaintext
 smartukgu-desktop/
 ├── src/
 │   ├── main.py           # Главный модуль
