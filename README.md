@@ -20,7 +20,7 @@
 
 <div align="center">
   
-  <img src="assets/screenshot.png" alt="SmartUkgu Desktop Screenshot" width="70%" style="border-radius:18px; box-shadow:0 0 12px #23243c40;">
+  <img src="assets/" alt="SmartUkgu Desktop Screenshot" width="70%" style="border-radius:18px; box-shadow:0 0 12px #23243c40;">
   
 </div>
 
