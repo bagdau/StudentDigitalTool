@@ -12,7 +12,6 @@
 ---
 
 > <img src="https://img.shields.io/badge/🌐%20SmartUKGU%20-%20Desktop%20версия%20онлайн%20университета%20-синий?style=for-the-badge" height="30"/>
-```
 <div align="center">
 
 <table>
@@ -83,7 +82,6 @@
 </table>
 
 </div>
-```
 
 ## 📦 Структура проекта
 
