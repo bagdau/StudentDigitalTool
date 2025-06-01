@@ -1,0 +1,254 @@
+import sys
+import os
+import json
+from pathlib import Path
+from PyQt5 import QtWidgets, QtCore, QtGui, QtWebEngineWidgets
+import subprocess
+import signal
+import atexit
+
+try:
+    from PIL import Image
+except ImportError:
+    Image = None  # Если Pillow не установлен
+
+# === Константы ===
+DATA_FILE = Path("account_info.json")
+ICONS_PATH = Path("smartukgu-desktop") / "src" / "icons" 
+SERVER_SCRIPT = Path("smartukgu-desktop") / "save_server.py"  # подстрой путь!
+
+# === Автогенерация иконки (через Pillow) ===
+def ensure_icon():
+    icon_src = ICONS_PATH / "logo.png"
+    icon_out = ICONS_PATH / "UKGULogotype.png"
+    ico_out = ICONS_PATH / "main.ico"
+    ICONS_PATH.mkdir(exist_ok=True)
+    if not icon_out.exists() and icon_src.exists() and Image:
+        img = Image.open(icon_src).convert("RGBA")
+        img = img.resize((128, 128), Image.LANCZOS)
+        img.save(icon_out)
+        img.save(ico_out, format="ICO", sizes=[(32,32),(64,64),(128,128)])
+        print("Иконка успешно сгенерирована:", icon_out)
+    elif not icon_out.exists():
+        print("Файл иконки отсутствует. Сгенерируй logo.png в папке icons.")
+
+ensure_icon()
+
+# === Работа с аккаунтом ===
+def load_account_info():
+    if DATA_FILE.exists():
+        with DATA_FILE.open('r', encoding='utf-8') as f:
+            return json.load(f)
+    return {'login': '', 'password': '', 'iin': ''}
+
+def save_account_info(login, password):
+    info = {'login': login, 'password': password}
+    if len(login) == 12 and login.isdigit():
+        info['iin'] = login
+    else:
+        info['iin'] = ''
+    with DATA_FILE.open('w', encoding='utf-8') as f:
+        json.dump(info, f, ensure_ascii=False, indent=2)
+    return info
+
+# === Запуск локального сервера ===
+def start_local_server():
+    if not SERVER_SCRIPT.exists():
+        QtWidgets.QMessageBox.critical(None, "Ошибка запуска сервера",
+                                       f"Файл сервера не найден:\n{SERVER_SCRIPT.resolve()}")
+        return None
+    # Стартуем сервер в фоне на 127.0.0.1:5000 (Flask по умолчанию)
+    if os.name == "nt":
+        proc = subprocess.Popen([sys.executable, str(SERVER_SCRIPT)],
+                                creationflags=subprocess.CREATE_NEW_PROCESS_GROUP,
+                                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    else:
+        proc = subprocess.Popen([sys.executable, str(SERVER_SCRIPT)],
+                                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    return proc
+
+def kill_server_on_exit(proc):
+    def _kill():
+        if proc:
+            try:
+                if os.name == "nt":
+                    proc.send_signal(signal.CTRL_BREAK_EVENT)
+                else:
+                    proc.terminate()
+            except Exception:
+                pass
+    atexit.register(_kill)
+
+# === Главное окно ===
+class SmartUkguMain(QtWidgets.QMainWindow):
+    def __init__(self, server_proc=None):
+        super().__init__()
+        self.setWindowTitle("SmartUkgu Desktop")
+        self.setGeometry(150, 90, 1100, 750)
+        self.setWindowIcon(QtGui.QIcon(str(ICONS_PATH / "UKGULogotype.png")))
+        self.account_info = load_account_info()
+        self.autofill_enabled = False
+        self.server_proc = server_proc
+
+        # --- Веб-браузер
+        self.web = QtWebEngineWidgets.QWebEngineView()
+        self.setCentralWidget(self.web)
+        self.web.setUrl(QtCore.QUrl("https://smart.ukgu.kz/ru"))
+
+        # --- Toolbar с иконками
+        self.toolbar = QtWidgets.QToolBar("Навигация")
+        self.toolbar.setIconSize(QtCore.QSize(26,26))
+        self.addToolBar(QtCore.Qt.TopToolBarArea, self.toolbar)
+        self._add_toolbar_buttons()
+
+        # --- Меню
+        self._add_menu()
+
+        # --- Авто-инъекция JS
+        self.web.loadFinished.connect(self.inject_js)
+
+    def closeEvent(self, event):
+        # Аккуратно закрываем сервер
+        if self.server_proc:
+            try:
+                if os.name == "nt":
+                    self.server_proc.send_signal(signal.CTRL_BREAK_EVENT)
+                else:
+                    self.server_proc.terminate()
+            except Exception:
+                pass
+        event.accept()
+
+    def _add_toolbar_buttons(self):
+        def add_toolbar_action(icon, text, func):
+            action = QtWidgets.QAction(QtGui.QIcon(str(ICONS_PATH / icon)), text, self)
+            action.triggered.connect(func)
+            self.toolbar.addAction(action)
+
+        add_toolbar_action("main.png", "Главная", lambda: self.web.setUrl(QtCore.QUrl("https://smart.ukgu.kz/ru")))
+        add_toolbar_action("schedule.png", "Расписание", lambda: self.web.setUrl(QtCore.QUrl("https://smart.ukgu.kz/ru/undergraduate/academic-calendar")))
+        add_toolbar_action("news.png", "Новости", lambda: self.web.setUrl(QtCore.QUrl("https://news.google.com/")))
+        add_toolbar_action("chatgpt.png", "ChatGPT", lambda: self.web.setUrl(QtCore.QUrl("https://chat.openai.com/")))
+        self.toolbar.addSeparator()
+        add_toolbar_action("account.png", "Аккаунт", self.show_account_modal)
+        add_toolbar_action("savedata.png", "Сохранить данные", self.manual_save_dialog)
+        add_toolbar_action("calculator.png", "Калькулятор", lambda: self.web.setUrl(QtCore.QUrl("https://www.google.com/search?q=калькулятор")))
+        self.toolbar.addSeparator()
+
+    def _add_menu(self):
+        menubar = self.menuBar()
+        file_menu = menubar.addMenu("Файл")
+        file_menu.addAction("Открыть SmartUKGU", lambda: self.web.setUrl(QtCore.QUrl("https://smart.ukgu.kz/ru")))
+        file_menu.addAction("Открыть расписание", lambda: self.web.setUrl(QtCore.QUrl("https://smart.ukgu.kz/ru/schedule")))
+        file_menu.addSeparator()
+        file_menu.addAction("Выход", self.close)
+
+        edit_menu = menubar.addMenu("Правка")
+        edit_menu.addAction("Копировать", lambda: self.web.triggerPageAction(QtWebEngineWidgets.QWebEnginePage.Copy))
+        edit_menu.addAction("Вставить", lambda: self.web.triggerPageAction(QtWebEngineWidgets.QWebEnginePage.Paste))
+
+        tools_menu = menubar.addMenu("Инструменты")
+        tools_menu.addAction("Открыть ChatGPT", lambda: self.web.setUrl(QtCore.QUrl("https://chat.openai.com/")))
+        tools_menu.addAction("Калькулятор", lambda: self.web.setUrl(QtCore.QUrl("https://www.google.com/search?q=калькулятор")))
+        tools_menu.addAction("Новости", lambda: self.web.setUrl(QtCore.QUrl("https://news.google.com/")))
+        tools_menu.addAction("PhotoMath", lambda: self.web.setUrl(QtCore.QUrl("https://photomath.com/")))
+
+        acc_menu = menubar.addMenu("Аккаунт")
+        acc_menu.addAction("Мои данные (пароль/ИИН)", self.show_account_modal)
+        acc_menu.addAction("Авто-заполнение при входе", self.enable_autofill)
+        acc_menu.addAction("Сохранить текущие данные", self.manual_save_dialog)
+
+        help_menu = menubar.addMenu("Справка")
+        help_menu.addAction("О сайте", lambda: QtGui.QDesktopServices.openUrl(QtCore.QUrl("https://smart.ukgu.kz/ru/about")))
+        help_menu.addAction("Помощь", lambda: self.web.setUrl(QtCore.QUrl("https://smart.ukgu.kz/ru/help")))
+
+        view_menu = menubar.addMenu("Вид")
+        view_menu.addAction("Стандартный", lambda: self.resize(900, 700))
+        view_menu.addAction("Большой", lambda: self.resize(1200, 900))
+
+        view_menu = menubar.addMenu("Давай Погуглим!")
+        view_menu.addAction("Открыть Google", self.open_google)
+        view_menu.addAction("Поиск в Google...", self.google_search_dialog)
+
+    def inject_js(self):
+        if self.autofill_enabled and self.account_info.get("login"):
+            login = self.account_info.get("login", "")
+            password = self.account_info.get("password", "")
+            fill_js = f"""
+                let form = document.querySelector('form[action*="/login"]');
+                if (form) {{
+                    let l = form.querySelector('input[name="login"]');
+                    let p = form.querySelector('input[name="password"]');
+                    if(l) l.value = `{login}`;
+                    if(p) p.value = `{password}`;
+                }}
+            """
+            self.web.page().runJavaScript(fill_js)
+
+    def show_account_modal(self):
+        acc = self.account_info
+        msg = QtWidgets.QMessageBox(self)
+        msg.setWindowTitle("Ваши данные для входа")
+        msg.setIcon(QtWidgets.QMessageBox.Information)
+        msg.setText(
+            f"<b>Логин:</b> {acc.get('login','')}<br>"
+            f"<b>ИИН:</b> {acc.get('iin','')}<br>"
+            f"<b>Пароль:</b> {acc.get('password','')}"
+        )
+        msg.addButton("Закрыть", QtWidgets.QMessageBox.AcceptRole)
+        msg.exec_()
+
+    def enable_autofill(self):
+        self.autofill_enabled = True
+        self.inject_js()
+        QtWidgets.QMessageBox.information(self, "Авто-заполнение", "Авто-заполнение включено.")
+
+    def manual_save_dialog(self):
+        dlg = QtWidgets.QDialog(self)
+        dlg.setWindowTitle("Сохранить данные")
+        dlg.setModal(True)
+        layout = QtWidgets.QFormLayout(dlg)
+        login_edit = QtWidgets.QLineEdit()
+        password_edit = QtWidgets.QLineEdit()
+        password_edit.setEchoMode(QtWidgets.QLineEdit.Password)
+        layout.addRow("Логин или ИИН:", login_edit)
+        layout.addRow("Пароль:", password_edit)
+        btn = QtWidgets.QPushButton("Сохранить")
+        layout.addRow(btn)
+        def save_and_close():
+            login = login_edit.text().strip()
+            password = password_edit.text().strip()
+            info = save_account_info(login, password)
+            self.account_info = info
+            QtWidgets.QMessageBox.information(self, "Успех", "Данные успешно сохранены.")
+            dlg.accept()
+        btn.clicked.connect(save_and_close)
+        dlg.exec_()
+
+    def open_google(self):
+        try:
+            self.web.setUrl(QtCore.QUrl("https://www.google.com/"))
+        except Exception:
+            QtGui.QDesktopServices.openUrl(QtCore.QUrl("https://www.google.com/"))
+
+    def google_search_dialog(self):
+        text, ok = QtWidgets.QInputDialog.getText(self, "Google Поиск", "Что ищем?")
+        if ok and text.strip():
+            url = "https://www.google.com/search?q=" + QtCore.QUrl.toPercentEncoding(text)
+            self.web.setUrl(QtCore.QUrl(url))
+
+
+if __name__ == '__main__':
+    server_proc = start_local_server()
+    if server_proc:
+        kill_server_on_exit(server_proc)
+    app = QtWidgets.QApplication(sys.argv)
+    # Ставим юзер-агент (после QApplication!)
+    profile = QtWebEngineWidgets.QWebEngineProfile.defaultProfile()
+    profile.setHttpUserAgent(
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+    )
+    main = SmartUkguMain(server_proc=server_proc)
+    main.show()
+    sys.exit(app.exec_())
