@@ -227,7 +227,7 @@ class SmartUkguMain(QtWidgets.QMainWindow):
         add_toolbar_action("main.png", "main", lambda: self.web.setUrl(QtCore.QUrl("https://smart.ukgu.kz/ru")))
         add_toolbar_action("schedule.png", "schedule", lambda: self.web.setUrl(QtCore.QUrl("https://smart.ukgu.kz/ru/undergraduate/academic-calendar")))
         add_toolbar_action("news.png", "news", lambda: self.web.setUrl(QtCore.QUrl("https://news.google.com/")))
-        add_toolbar_action("chatgpt.png", "chatgpt", lambda: self.web.setUrl(QtCore.QUrl("smartukgu-desktop/src/ChatGPT.exe")))
+        add_toolbar_action("chatgpt.png", "chatgpt", lambda: self.web.setUrl(QtCore.QUrl("ChatGPT.exe")))
         self.toolbar.addSeparator()
         add_toolbar_action("account.png", "account", self.show_account_modal)
         add_toolbar_action("savedata.png", "manual_save", self.manual_save_dialog)
