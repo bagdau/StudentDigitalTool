@@ -5,7 +5,7 @@
 
 [! [SMART UKGU] (https://smart.ukgu.kz/assets/logos/logo-dark-350x350.png)] (https://smart.ukgu.kz/ru)
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Python](https://img.shields.io/badge/Python-3.8%2B-blue?logo=python)](https://www.python.org/)
+[![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python)](https://www.python.org/)
 [![PyQt5](https://img.shields.io/badge/GUI-PyQt5-brightgreen?logo=qt)](https://pypi.org/project/PyQt5/)
 [![Flask](https://img.shields.io/badge/Backend-Flask-orange?logo=flask)](https://pypi.org/project/Flask/)
 [![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20Linux%20%7C%20macOS-3333cc?logo=windows)]()
