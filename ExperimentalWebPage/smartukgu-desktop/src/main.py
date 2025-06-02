@@ -29,6 +29,8 @@ TRANSLATIONS = {
         'calculator': 'Calculator',
         'file': 'File',
         'edit': 'Edit',
+        'copy': 'Copy',
+        'paste': 'Paste',
         'tools': 'Tools',
         'help': 'Help',
         'view': 'View',
@@ -49,7 +51,7 @@ TRANSLATIONS = {
         'cancel': 'Cancel'
     },
     'KZ': {
-        'title': 'SmartUkgu Десктоп',
+        'title': 'SmartUkgu веб - қосымшасы',
         'main': 'Басты бет',
         'schedule': 'Кесте',
         'news': 'Жаңалықтар',
@@ -59,6 +61,8 @@ TRANSLATIONS = {
         'calculator': 'Калькулятор',
         'file': 'Файл',
         'edit': 'Өңдеу',
+        'copy': 'Көшіру',
+        'paste': 'Қою',
         'tools': 'Құралдар',
         'help': 'Анықтама',
         'view': 'Көрініс',
@@ -79,7 +83,7 @@ TRANSLATIONS = {
         'cancel': 'Болдырмау'
     },
     'RU': {
-        'title': 'SmartUkgu Десктоп',
+        'title': 'SmartUkgu веб-приложение',
         'main': 'Главная',
         'schedule': 'Расписание',
         'news': 'Новости',
@@ -89,6 +93,8 @@ TRANSLATIONS = {
         'calculator': 'Калькулятор',
         'file': 'Файл',
         'edit': 'Правка',
+        'copy': 'Копировать',
+        'paste': 'Вставить', 
         'tools': 'Инструменты',
         'help': 'Справка',
         'view': 'Вид',
